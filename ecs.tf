@@ -3,18 +3,18 @@
 # accordingly
 
 resource "aws_ecs_task_definition" "own_task_definition" {
-  family                = "sean-taskdef-tf" # Update accordingly
+  family                   = "fooweiguo-taskdef-tf" # Update accordingly
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  execution_role_arn        = var.ex_role_arn
-  cpu                   =   256
-  memory                = 512
+  execution_role_arn       = var.ex_role_arn
+  cpu                      = 256
+  memory                   = 512
 
   container_definitions = templatefile("./files/task-definition.json", {
     image_url        = "nginx:latest"
     container_name   = "NGINX"
     log_group_region = "us-east-1"
-    log_group_name   = "/ecs/sean-taskdef-tf"
+    log_group_name   = "/ecs/fooweiguo-taskdef-tf"
     log_group_prefix = "ecs"
   })
 }
@@ -22,13 +22,13 @@ resource "aws_ecs_task_definition" "own_task_definition" {
 # Creates an ecs cluster
 
 resource "aws_ecs_cluster" "own_cluster" {
-  name = "sean-cluster-tf" # Update accordingly
+  name = "fooweiguo-cluster-tf" # Update accordingly
 }
 
 # Creates an ecs service
 
 resource "aws_ecs_service" "own_service" {
-  name             = "sean-svc-tf" # Update accordingly
+  name             = "fooweiguo-svc-tf" # Update accordingly
   cluster          = aws_ecs_cluster.own_cluster.arn
   task_definition  = aws_ecs_task_definition.own_task_definition.arn
   desired_count    = 1
@@ -36,13 +36,13 @@ resource "aws_ecs_service" "own_service" {
   platform_version = "LATEST"
 
   deployment_circuit_breaker {
-    enable          = true
-    rollback        = true
+    enable   = true
+    rollback = true
   }
 
   network_configuration {
     subnets          = data.aws_subnets.existing_subnets.ids
     assign_public_ip = true
-    security_groups = [var.sg_id]
+    security_groups  = [var.sg_id]
   }
 }
