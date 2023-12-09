@@ -22,12 +22,6 @@
                 "awslogs-region": "${log_group_region}",
                 "awslogs-stream-prefix": "${log_group_prefix}"
           }
-      "containerDefinitions": [
-        {
-            "name": "container-name",
-            "image": "255945442255.dkr.ecr.us-east-1.amazonaws.com/group3-capstone-project-ecr-fooweiguo:latest",
-            ...
-        }
       }
     }
   ]
